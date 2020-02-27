@@ -99,9 +99,7 @@ def privatemessage(sender_name, receiver_name, message):
                 print('<Private message from ' + sender_name + ' to ' + receiver_name + '> ' + message)
                 return 0
             except:
-                print('Is this exception?')
                 list_of_clients[i].close()
-                remove(list_of_clients[i])
                 break
     return -1
 
