@@ -1,1 +1,1 @@
-{"user": {"lastname": "Brooks", "age": 25, "firstname": "Brian"}, "address": {"zip-code": 53110, "street": "Example Street", "streetnumber": 124, "country": "Finland"}}
+{"employment": {"job": "Senior Programmer", "education": "Master of Science", "specialization": "Information technology"}, "user": {"lastname": "Brooks", "age": 25, "firstname": "Brian"}, "family": {"married": "Yes", "children": 2}, "address": {"zip-code": 53110, "street": "Example Street", "streetnumber": 124, "country": "Finland"}}

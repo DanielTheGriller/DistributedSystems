@@ -3,6 +3,13 @@ address:
   street: Example Street
   streetnumber: 124
   zip-code: 53110
+employment:
+  education: Master of Science
+  job: Senior Programmer
+  specialization: Information technology
+family:
+  children: 2
+  married: 'Yes'
 user:
   age: 25
   firstname: Brian
