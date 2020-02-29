@@ -1,0 +1,9 @@
+address:
+  country: Finland
+  street: Example Street
+  streetnumber: 124
+  zip-code: 53110
+user:
+  age: 25
+  firstname: Brian
+  lastname: Brooks
