@@ -1,0 +1,3 @@
+-Käytä python3 komentoa tän suorittamiseen
+-kato example.py:stä vähän apua :D
+- muista threadit
