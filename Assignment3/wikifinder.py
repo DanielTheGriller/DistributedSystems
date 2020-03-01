@@ -7,6 +7,7 @@ import threading
 from multiprocessing import Manager
 from multiprocessing.pool import ThreadPool
 from collections import deque
+import time
 
 
 def find_path(start_page, end_page):
@@ -16,10 +17,9 @@ def find_path(start_page, end_page):
 	results = []
 	while len(Q) != 0:
 		current_page = Q.popleft()
-		print(current_page)
 		links = get_pages(current_page)
-		try:
-			pool = ThreadPool(processes=len(links))
+		if links:
+			pool = ThreadPool(processes=4)
 			for link in links:
 				results.append(pool.apply(generate_path, args=(path, current_page, link, end_page)))
 			pool.terminate()
@@ -27,8 +27,9 @@ def find_path(start_page, end_page):
 				if type(result) == list:
 					return result
 				Q.append(result)
-		except:
+		else:
 			continue
+
 
 
 """ This function checks if the given link
@@ -44,7 +45,10 @@ def generate_path(path, current_page, link, end_page):
 
 """ This function gets all the links on the current wikipedia page """
 def get_pages(URL):
-	r = requests.get(URL)
+	try:
+		r = requests.get(URL)
+	except:
+		return None
 	s = BeautifulSoup(r.content, 'html.parser')
 	links = []
 	for a in s.select('p a[href]'):
@@ -68,11 +72,16 @@ if __name__ == '__main__':
 	#start_page = 'https://en.wikipedia.org/wiki/' + str(input('Insert start page as it is in the url (for example Barack_Obama): '))
 	#end_page = 'https://en.wikipedia.org/wiki/' + str(input('Insert end page as it is in the url (for example Barack_Obama): '))
 	# TEMPORARY VALUES, PLEASE DELETE
-	start_page = 'https://en.wikipedia.org/wiki/Barack_Obama'
-	end_page = 'https://en.wikipedia.org/wiki/Car'
+	start_page = 'https://en.wikipedia.org/wiki/Renault'
+	end_page = 'https://en.wikipedia.org/wiki/Barack_Obama'
 	# Confirm that both pages are real
 	if confirm_page(start_page) and confirm_page(end_page):
+		startTime = time.time()
 		path = find_path(start_page, end_page)
-		print(path)
+		endTime = time.time()
+		elapsedTime = endTime-startTime
+		print('Found result in ' + str(elapsedTime) + ' seconds:')
+		for link in path:
+			print(link)
 	else:
 		print('Input is not a real wikipedia page')
