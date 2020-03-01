@@ -10,29 +10,28 @@ from collections import deque
 import time
 
 
-""" This function does the searching and handling of
-different links that are found on wikipedia pages. """
 def find_path(start_page, end_page):
 	path = Manager().dict()
 	path[start_page] = [start_page]
 	Q = deque([start_page])
 	results = []
-	while len(Q) != 0: # Run a loop as long as there is things on queue
+	while len(Q) != 0:
+		print(path)
 		current_page = Q.popleft()
 		links = get_pages(current_page)
 		if links:
-			if len(links) > 16: # This if-else pair is limiting the amount of workers to max 16
+			if len(links) > 16:
 				workers = 16
 			else:
 				workers = len(links)
-			pool = ThreadPool(processes=workers) # Generate a threadpool
-			for link in links: # Iterate over the links and assign the workers to the task
+			pool = ThreadPool(processes=16)
+			for link in links:
 				results.append(pool.apply(generate_path, args=(path, current_page, link, end_page)))
 			pool.terminate()
 			for result in results:
 				if type(result) == list:
 					return result
-				if result: # Just to make sure that None values won't get to the queue
+				if result:
 					Q.append(result)
 		else:
 			continue
@@ -56,10 +55,10 @@ def get_pages(URL):
 		r = requests.get(URL)
 	except:
 		return None
-	s = BeautifulSoup(r.content, 'html.parser') # Parse the content to a readable form
+	s = BeautifulSoup(r.content, 'html.parser')
 	links = []
-	for a in s.select('p a[href]'): # Iterate over the a href links found
-		if(a['href'].startswith('/wiki/')): # Make sure that link is wiki-page
+	for a in s.select('p a[href]'):
+		if(a['href'].startswith('/wiki/')):
 			link = 'https://en.wikipedia.org' + a['href']
 			links.append(link)
 	return links
@@ -76,16 +75,19 @@ def confirm_page(URL):
 
 if __name__ == '__main__':
 	# Ask for start and end pages as the last part of the URL
-	start_page = 'https://en.wikipedia.org/wiki/' + str(input('Insert start page as it is in the url (for example Barack_Obama): '))
-	end_page = 'https://en.wikipedia.org/wiki/' + str(input('Insert end page as it is in the url (for example Barack_Obama): '))
+	#start_page = 'https://en.wikipedia.org/wiki/' + str(input('Insert start page as it is in the url (for example Barack_Obama): '))
+	#end_page = 'https://en.wikipedia.org/wiki/' + str(input('Insert end page as it is in the url (for example Barack_Obama): '))
+	# TEMPORARY VALUES, PLEASE DELETE
+	start_page = 'https://en.wikipedia.org/wiki/Python_(programming_language)'
+	end_page = 'https://en.wikipedia.org/wiki/Camel'
 	# Confirm that both pages are real
 	if confirm_page(start_page) and confirm_page(end_page):
 		startTime = time.time()
-		path = find_path(start_page, end_page) # Initiate the function to find the path
+		path = find_path(start_page, end_page)
 		endTime = time.time()
 		elapsedTime = round(endTime-startTime,3)
 		print('Found result in ' + str(elapsedTime) + ' seconds:')
-		for link in path: # Print the result one link at a time
+		for link in path:
 			print(link)
 	else:
 		print('Input is not a real wikipedia page')
