@@ -19,7 +19,7 @@ def find_path(start_page, end_page):
 		current_page = Q.popleft()
 		links = get_pages(current_page)
 		if links:
-			pool = ThreadPool(processes=4)
+			pool = ThreadPool(processes=len(links)+1)
 			for link in links:
 				results.append(pool.apply(generate_path, args=(path, current_page, link, end_page)))
 			pool.terminate()
