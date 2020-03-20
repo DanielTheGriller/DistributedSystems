@@ -1,5 +1,4 @@
 msgpack
 pyyaml
 matplotlib
-pycairo
-PyGObject
+tornado

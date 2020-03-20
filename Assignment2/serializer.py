@@ -8,9 +8,11 @@ import xml.etree.ElementTree as ET
 import msgpack
 import yaml
 from timeit import default_timer as timer
-import matplotlib
-matplotlib.use('Qt5Agg')
+import matplotlib as mpl
 import matplotlib.pyplot as plt 
+
+mpl.use('WebAgg')
+mpl.rc('webagg', address='0.0.0.0', port='8000')
 """ This program serializes and deserializes data
 using different formats. It compares the processing times
 and file sizes of each formats using bar graphs. """
