@@ -75,7 +75,7 @@ def serializerXML():
 			grandchild.text = str(subval)
 		elem.append(child)
 
-	xmlFile = open("serialized.xml", "w")
+	xmlFile = open("serialized.xml", "wb")
 	xmlFile.write(ET.tostring(elem))
 	xmlFile.close()
 
@@ -88,14 +88,14 @@ def deserializerXML():
 
 # Function which serializes data using MessagePack
 def serializerMessagePack():
-	msgpackFile = open("serialized.msgpack", "w")
+	msgpackFile = open("serialized.msgpack", "wb")
 	msgpack.pack(exampledata, msgpackFile)
 	msgpackFile.close()
 	
 
 #Function which deserializes .msgpack formatted data
 def deserializerMessagePack():
-	msgpackFile = open("serialized.msgpack", "r")
+	msgpackFile = open("serialized.msgpack", "rb")
 	data = msgpack.unpack(msgpackFile)
 	msgpackFile.close()
 
@@ -157,6 +157,8 @@ file_sizes = []
 for files in list_of_filenames:
 	file_sizes.append(os.stat(files).st_size)
 
+# Defining size for the figure, 16x8 inches
+plt.figure(figsize=(16,8))
 # Defining x-axis values
 left = [1,2,3,4,5]
 
