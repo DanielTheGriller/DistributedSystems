@@ -23,19 +23,19 @@ def find_path(start_page, end_page):
 		if links:
 			pool = ThreadPool(processes=len(links)+1)
 			for link in links:
-			if len(links) > 16: # This if-else pair is limiting the amount of workers to max 16
-				workers = 16
-			else:
-				workers = len(links)
-			pool = ThreadPool(processes=workers) # Generate a threadpool
-			for link in links: # Iterate over the links and assign the workers to the task
-				results.append(pool.apply(generate_path, args=(path, current_page, link, end_page)))
-			pool.terminate()
-			for result in results:
-				if type(result) == list:
-					return result
-				if result: # Just to make sure that None values won't get to the queue
-					Q.append(result)
+				if (len(links) > 16): # This if-else pair is limiting the amount of workers to max 16
+					workers = 16
+				else:
+					workers = len(links)
+				pool = ThreadPool(processes=workers) # Generate a threadpool
+				for link in links: # Iterate over the links and assign the workers to the task
+					results.append(pool.apply(generate_path, args=(path, current_page, link, end_page)))
+				pool.terminate()
+				for result in results:
+					if type(result) == list:
+						return result
+					if result: # Just to make sure that None values won't get to the queue
+						Q.append(result)
 		else:
 			continue
 
