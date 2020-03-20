@@ -9,7 +9,7 @@ import msgpack
 import yaml
 from timeit import default_timer as timer
 import matplotlib
-matplotlib.use('nbAgg')
+matplotlib.use('SVG')
 import matplotlib.pyplot as plt 
 """ This program serializes and deserializes data
 using different formats. It compares the processing times
