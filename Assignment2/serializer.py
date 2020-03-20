@@ -188,6 +188,7 @@ plt.ylabel('Size')
 plt.title('Serialized file sizes per format')
 
 # Draw the graph
+print('Open 127.0.0.1:8000 with browser to watch the diagram')
 plt.show()
 
 
